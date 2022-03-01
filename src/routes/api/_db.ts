@@ -12,6 +12,8 @@ const db = new PrismaClient();
 type AuthResult =
 	| {
 			success: true;
+			email: string;
+			id: string;
 			sessionId: string;
 	  }
 	| {
@@ -36,7 +38,7 @@ export const registerUser = async ({
 	const passwordHash = await argon.hash(password);
 	const user = await db.user.create({ data: { email, passwordHash } });
 	const session = await db.session.create({ data: { userId: user.id } });
-	return { success: true, sessionId: session.id };
+	return { success: true, email: user.email, id: user.id, sessionId: session.id };
 };
 
 export const loginUser = async ({
@@ -59,7 +61,7 @@ export const loginUser = async ({
 
 	const session = await db.session.create({ data: { userId: user.id } });
 
-	return { success: true, sessionId: session.id };
+	return { success: true, email: user.email, id: user.id, sessionId: session.id };
 };
 
 export const signOutUser = async (sessionId: string) => {

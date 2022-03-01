@@ -13,6 +13,7 @@
 	import { goto } from '$app/navigation';
 	import { submit } from '$lib/useSubmit';
 	import { autofocus } from '$lib/useAutofocus';
+	import { session } from '$app/stores';
 
 	let message = '';
 </script>
@@ -20,10 +21,11 @@
 <form
 	use:submit={{
 		onEnd: async (res) => {
-			const data = await res.json();
-			console.log({ data });
-			if (data.success) goto('/');
-			else message = data.message;
+			const { success, email, id, message: msg } = await res.json();
+			if (success) {
+				$session = { email, id };
+				await goto('/');
+			} else message = msg;
 		}
 	}}
 	class="max-w-lg mx-auto mt-20 flex flex-col gap-4"

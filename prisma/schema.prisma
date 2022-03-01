@@ -11,10 +11,11 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
+  id           String     @id @default(cuid())
+  email        String     @unique
   passwordHash String
   session      Session?
+  shortcuts    Shortcut[]
 }
 
 model Session {
@@ -22,4 +23,18 @@ model Session {
   createdAt DateTime @default(now())
   User      User     @relation(fields: [userId], references: [id])
   userId    String   @unique
+}
+
+model Shortcut {
+  id         String   @id @default(cuid())
+  shortNames String[]
+  title      String
+  color      String
+  // full url to the homepage
+  homepage   String
+  // full link to a search page with some predefined placeholder for search query
+  searchPage String?
+
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
 }

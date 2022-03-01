@@ -25,7 +25,9 @@ export const post: RequestHandler = async ({ request }) => {
 			},
 			body: {
 				success: true,
-				message: 'Successfully signed in'
+				message: 'Successfully signed in',
+				email: result.email,
+				id: result.id
 			}
 		};
 	} else {

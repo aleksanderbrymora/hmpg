@@ -7,20 +7,25 @@
 			};
 		} else return {};
 	}
+	let message = '';
 </script>
 
 <script lang="ts">
 	import { submit } from '$lib/useSubmit';
 	import { autofocus } from '$lib/useAutofocus';
 	import { goto } from '$app/navigation';
+	import { session } from '$app/stores';
 </script>
 
 <form
 	use:submit={{
 		onEnd: async (res) => {
-			const data = await res.json();
-			console.log({ data });
-			await goto('/');
+			const { success, email, id, message: msg } = await res.json();
+			console.log({ success, email, id, msg });
+			if (success) {
+				$session = { user: { email, id } };
+				await goto('/');
+			} else message = msg;
 		}
 	}}
 	class="max-w-lg mx-auto mt-20 flex flex-col gap-4"
@@ -36,7 +41,12 @@
 		<label for="password-input">Password</label>
 		<input name="password" type="password" required id="password-input" value="Chicken.123" />
 	</fieldset>
+
 	<p>Don't have an account yet? <a class="text-blue-400" href="/signup">Sign up</a></p>
+
+	{#if message !== ''}
+		<p class="text-center">{message}</p>
+	{/if}
 
 	<input
 		type="submit"

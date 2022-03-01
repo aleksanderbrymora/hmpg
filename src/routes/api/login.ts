@@ -10,6 +10,8 @@ export const post: RequestHandler = async ({ request }) => {
 	console.log({ action: 'log in' });
 	const result = await loginUser({ email, password });
 
+	console.log({ result });
+
 	if (result.success) {
 		return {
 			status: 200,
@@ -23,14 +25,18 @@ export const post: RequestHandler = async ({ request }) => {
 				})
 			},
 			body: {
-				message: 'Successfully signed in'
+				message: 'Successfully signed in',
+				email: result.email,
+				id: result.id,
+				success: true
 			}
 		};
 	} else {
 		return {
 			status: 401,
 			body: {
-				message: 'Incorrect user or password'
+				message: 'Incorrect user or password',
+				success: false
 			}
 		};
 	}

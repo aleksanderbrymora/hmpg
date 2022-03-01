@@ -1,4 +1,8 @@
-import type { Handle } from '@sveltejs/kit';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
+// Plenty of ts-ignore because `locals` doesn't support overwriting properties for some reason
+
+import type { GetSession, Handle } from '@sveltejs/kit';
 import { parse } from 'cookie';
 import { getSession as getSessionFromApi } from './routes/api/_db';
 
@@ -11,23 +15,30 @@ export const handle: Handle = async ({ event, resolve }) => {
 		const session = await getSessionFromApi(cookies.session_id);
 		console.log({ cookies });
 		if (session) {
-			event.locals['user'] = { email: session.User.email, userId: session.User.id };
+			// @ts-ignore
+			event.locals.user = {
+				email: session.User.email,
+				userId: session.User.id
+			};
 			return resolve(event);
 		}
 	}
 
-	event.locals['user'] = null;
+	// @ts-ignore
+	event.locals.user = null;
 	return resolve(event);
 };
 
-/** @type {import('@sveltejs/kit').GetSession} */
-export function getSession(request) {
+export const getSession: GetSession = (request) => {
+	// @ts-ignore
 	return request?.locals?.user
 		? {
 				user: {
+					// @ts-ignore
 					email: request.locals.user.email,
+					// @ts-ignore
 					id: request.locals.user.userId
 				}
 		  }
 		: {};
-}
+};
