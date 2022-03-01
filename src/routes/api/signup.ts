@@ -7,7 +7,7 @@ export const post: RequestHandler = async ({ request }) => {
 	const email = items.get('email').toString();
 	const password = items.get('password').toString();
 
-	console.log({ email, password });
+	console.log({ action: 'sign up' });
 
 	const result = await registerUser({ email, password });
 
@@ -24,6 +24,7 @@ export const post: RequestHandler = async ({ request }) => {
 				})
 			},
 			body: {
+				success: true,
 				message: 'Successfully signed in'
 			}
 		};
@@ -31,6 +32,7 @@ export const post: RequestHandler = async ({ request }) => {
 		return {
 			status: 401,
 			body: {
+				success: false,
 				message: 'Incorrect user or password'
 			}
 		};

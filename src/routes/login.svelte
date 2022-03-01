@@ -1,5 +1,18 @@
+<script context="module" lang="ts">
+	export async function load({ session }) {
+		if (session?.user) {
+			return {
+				status: 302,
+				redirect: '/'
+			};
+		} else return {};
+	}
+</script>
+
 <script lang="ts">
 	import { submit } from '$lib/useSubmit';
+	import { autofocus } from '$lib/useAutofocus';
+	import { goto } from '$app/navigation';
 </script>
 
 <form
@@ -7,6 +20,7 @@
 		onEnd: async (res) => {
 			const data = await res.json();
 			console.log({ data });
+			await goto('/');
 		}
 	}}
 	class="max-w-lg mx-auto mt-20 flex flex-col gap-4"
@@ -15,13 +29,14 @@
 >
 	<fieldset>
 		<label for="email-input">Email</label>
-		<input name="email" type="email" required id="email-input" value="a@a.co" />
+		<input name="email" use:autofocus type="email" required id="email-input" value="a@a.co" />
 	</fieldset>
 
 	<fieldset>
 		<label for="password-input">Password</label>
 		<input name="password" type="password" required id="password-input" value="Chicken.123" />
 	</fieldset>
+	<p>Don't have an account yet? <a class="text-blue-400" href="/signup">Sign up</a></p>
 
 	<input
 		type="submit"
