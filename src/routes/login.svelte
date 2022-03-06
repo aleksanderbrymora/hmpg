@@ -11,8 +11,8 @@
 </script>
 
 <script lang="ts">
-	import { submit } from '$lib/useSubmit';
-	import { autofocus } from '$lib/useAutofocus';
+	import { submit } from '$lib/actions/useSubmit';
+	import { autofocus } from '$lib/actions/useAutofocus';
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores';
 </script>
@@ -21,7 +21,7 @@
 	use:submit={{
 		onEnd: async (res) => {
 			const { success, email, id, message: msg } = await res.json();
-			console.log({ success, email, id, msg });
+
 			if (success) {
 				$session = { user: { email, id } };
 				await goto('/');

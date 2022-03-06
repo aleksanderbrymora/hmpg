@@ -1,7 +1,10 @@
-<script>
-	import { session } from '$app/stores';
-
-	console.log($session);
+<script context="module">
+	export async function load({ session }) {
+		if (!session?.user) {
+			return {
+				status: 302,
+				redirect: '/login'
+			};
+		} else return {};
+	}
 </script>
-
-<h1>sup</h1>

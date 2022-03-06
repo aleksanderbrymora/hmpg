@@ -11,8 +11,8 @@
 
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { submit } from '$lib/useSubmit';
-	import { autofocus } from '$lib/useAutofocus';
+	import { submit } from '$lib/actions/useSubmit';
+	import { autofocus } from '$lib/actions/useAutofocus';
 	import { session } from '$app/stores';
 
 	let message = '';
@@ -23,7 +23,7 @@
 		onEnd: async (res) => {
 			const { success, email, id, message: msg } = await res.json();
 			if (success) {
-				$session = { email, id };
+				$session = { user: { email, id } };
 				await goto('/');
 			} else message = msg;
 		}

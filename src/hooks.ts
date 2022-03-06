@@ -4,16 +4,14 @@
 
 import type { GetSession, Handle } from '@sveltejs/kit';
 import { parse } from 'cookie';
-import { getSession as getSessionFromApi } from './routes/api/_db';
+import { getSession as getSessionFromApi } from './routes/api/_auth';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const cookies = parse(event.request.headers.get('cookie') || '');
 
-	console.log({ cookies });
-
 	if (cookies.session_id) {
 		const session = await getSessionFromApi(cookies.session_id);
-		console.log({ cookies });
+
 		if (session) {
 			// @ts-ignore
 			event.locals.user = {

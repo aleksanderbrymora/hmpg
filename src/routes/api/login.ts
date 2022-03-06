@@ -1,16 +1,13 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { serialize } from 'cookie';
-import { loginUser } from './_db';
+import { loginUser } from './_auth';
 
 export const post: RequestHandler = async ({ request }) => {
 	const items = await request.formData();
 	const email = items.get('email').toString();
 	const password = items.get('password').toString();
 
-	console.log({ action: 'log in' });
 	const result = await loginUser({ email, password });
-
-	console.log({ result });
 
 	if (result.success) {
 		return {

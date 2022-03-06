@@ -1,11 +1,9 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { parse, serialize } from 'cookie';
-import { signOutUser } from './_db';
+import { signOutUser } from './_auth';
 
 export const get: RequestHandler = async ({ request }) => {
 	const cookies = parse(request.headers.get('cookie') || '');
-
-	console.log({ cookies, action: 'sign out' });
 
 	if (cookies.session_id) {
 		await signOutUser(cookies.session_id);

@@ -8,3 +8,12 @@ declare namespace App {
 	// interface Session {}
 	// interface Stuff {}
 }
+
+interface Shortcut {
+	color: string;
+	homepage: string;
+	shortNames: string[];
+	id: string;
+	title: string;
+	searchPage: string;
+}
