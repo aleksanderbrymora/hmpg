@@ -50,9 +50,10 @@
 </script>
 
 <input
-	class="w-full text-8xl p-5 bg-transparent focus:outline-none text-center mt-36"
+	class="w-full text-8xl p-5 bg-transparent focus:outline-none text-center mt-36 overflow-x-auto"
 	spellcheck="false"
 	type="text"
+	autocomplete="off"
 	use:autofocus
 	id="search"
 	bind:value={search}
@@ -62,17 +63,17 @@
 	Just start typing in your shortcut <br />Press Enter to execute shortcut or Esc to erase field
 </label>
 
-{#if found}
-	<p
-		class="block w-full text-3xl mt-10 text-center underline"
-		style="text-decoration-color: {found?.color || 'none'};"
-	>
-		{#if short && !query}
-			Open {found.title}
-		{:else if short && query && !found.searchPage}
-			You haven't added search for this page, will just open {found.title}
-		{:else if short && query && found.searchPage}
-			Search for {query} in {found.title}
-		{/if}
-	</p>
-{/if}
+<p
+	class="block w-full text-3xl mt-10 text-center underline"
+	style="text-decoration-color: {found?.color || 'none'};"
+>
+	{#if found && short && !query}
+		Open {found.title}
+	{:else if found && short && query && !found.searchPage}
+		You haven't added search for this page, will just open {found.title}
+	{:else if found && short && query && found.searchPage}
+		Search for {query} in {found.title}
+	{:else if !found && short}
+		Search duckduckgo for {short}
+	{/if}
+</p>

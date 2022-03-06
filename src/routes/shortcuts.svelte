@@ -48,9 +48,11 @@
 	{#each shortcuts as s}
 		<a
 			href={s.homepage}
-			class="p-3 flex place-content-center rounded-lg font-bold shadow border border-white"
-			style="background-color: {s.color};">{s.title}</a
+			class="p-3 flex place-content-center border-2 rounded-lg font-bold shadow text-black whitespace-nowrap border-opacity-75 bg-white"
+			style="border-color: {s.color};"
 		>
+			{s.title}
+		</a>
 	{:else}
 		<p class="text-black col-span-6 text-center font-bold">
 			You don't have any shortcuts yet... <a class="text-blue-400" href="/new">Add one!</a>
