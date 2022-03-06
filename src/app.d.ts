@@ -15,5 +15,5 @@ interface Shortcut {
 	shortNames: string[];
 	id: string;
 	title: string;
-	searchPage: string;
+	searchPage?: string;
 }
