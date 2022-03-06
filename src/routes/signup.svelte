@@ -34,12 +34,12 @@
 >
 	<fieldset>
 		<label for="email-input">Email</label>
-		<input use:autofocus name="email" type="email" required id="email-input" value="a@a.co" />
+		<input use:autofocus name="email" type="email" required id="email-input" />
 	</fieldset>
 
 	<fieldset>
 		<label for="password-input">Password</label>
-		<input name="password" type="password" required id="password-input" value="Chicken.123" />
+		<input name="password" type="password" required id="password-input" />
 	</fieldset>
 
 	<p>Have an account already? <a class="text-blue-400" href="/login">Log in</a></p>
