@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { createShortcut, getUserIdFromRequest } from './_auth';
-import { db } from './_db';
+import { db } from '$lib/prisma';
 
 export const post: RequestHandler = async ({ request }) => {
 	const userId = await getUserIdFromRequest(request);

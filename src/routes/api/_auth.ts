@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import argon from 'argon2';
 import { parse } from 'cookie';
-import { db } from './_db';
+import { db } from '$lib/prisma';
 
 const userSchema = z.object({
 	email: z.string().email(),
