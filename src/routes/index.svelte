@@ -38,12 +38,15 @@
 	$: [short, query] = search.trim().split('|');
 	$: found = shortcuts.find((s) => s.shortNames.includes(short));
 
+	$: console.log({ found, short, query });
+
 	const keydownHandler = (e: KeyboardEvent) => {
 		if (e.key === 'Escape') search = '';
-		if (e.key === 'Enter' && found) {
+		if (e.key === 'Enter') {
 			if (query && found.searchPage)
 				window.open(found.searchPage.replace('$$query', query), '_blank');
-			else if (!query) window.open(found.homepage, '_blank');
+			else if (found && !query) window.open(found.homepage, '_blank');
+			else window.open(`https://duckduckgo.com/?t=ffab&q=${short}`, '_blank');
 			search = '';
 		}
 	};

@@ -58,7 +58,11 @@ export const loginUser = async ({
 	const isValidPassword = await argon.verify(user.passwordHash, password);
 	if (!isValidPassword) return { success: false, message: 'Email or password are incorrect' };
 
-	const session = await db.session.create({ data: { userId: user.id } });
+	const session = await db.session.upsert({
+		create: { userId: user.id },
+		update: { userId: user.id },
+		where: { userId: user.id }
+	});
 
 	return { success: true, email: user.email, id: user.id, sessionId: session.id };
 };
