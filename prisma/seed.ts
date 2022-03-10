@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import argon from 'argon2';
+import bcrypt from 'bcryptjs';
 
 //! if you want to run the seed you need to remove `type: "module"` from package.json
 
@@ -13,7 +13,7 @@ const seed = async () => {
 	const email = 'a@a.co';
 	const password = 'Chicken.123';
 
-	const passwordHash = await argon.hash(password);
+	const passwordHash = await bcrypt.hash(password, 8);
 	const user = await db.user.create({ data: { email, passwordHash } });
 
 	await db.shortcut.createMany({ data: urls.map((u) => ({ ...u, userId: user.id })) });

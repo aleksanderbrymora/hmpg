@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { hash, verify } from 'argon2';
 import { parse } from 'cookie';
 import { db } from '$lib/prisma';
+import bcrypt from 'bcryptjs';
 
 const userSchema = z.object({
 	email: z.string().email(),
@@ -34,7 +34,9 @@ export const registerUser = async ({
 	const userExists = await db.user.findUnique({ where: { email } });
 	if (userExists) return { success: false, message: 'Email or password are incorrect' };
 
-	const passwordHash = await hash(password);
+	// const passwordHash = await hash(password);
+	const passwordHash = await bcrypt.hash(password, 8);
+
 	const user = await db.user.create({ data: { email, passwordHash } });
 	const session = await db.session.create({ data: { userId: user.id } });
 	return { success: true, email: user.email, id: user.id, sessionId: session.id };
@@ -55,7 +57,7 @@ export const loginUser = async ({
 	const user = await db.user.findFirst({ where: { email: parsedUser.data.email } });
 	if (!user) return { success: false, message: 'Email or password are incorrect' };
 
-	const isValidPassword = await verify(user.passwordHash, password);
+	const isValidPassword = await bcrypt.compare(password, user.passwordHash);
 	if (!isValidPassword) return { success: false, message: 'Email or password are incorrect' };
 
 	const session = await db.session.upsert({
