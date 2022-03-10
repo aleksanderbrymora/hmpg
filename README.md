@@ -38,3 +38,12 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+
+Previous tries for the deploy commands
+```json
+{
+    "vercel-build": "prisma generate && yarn build && yarn vercel-postbuild",
+	"vercel-postbuild": "cp node_modules/@prisma/engines/*query* .vercel_build_output/functions/node/render/;cp prisma/schema.prisma .vercel_build_output/functions/node/render/"
+}
+```
